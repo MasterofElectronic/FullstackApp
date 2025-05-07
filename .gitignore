@@ -1,0 +1,22 @@
+#Node
+node_modules/
+dist/
+.next/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+*.env
+*.env.local
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+*.suo
+*.ntvs*
