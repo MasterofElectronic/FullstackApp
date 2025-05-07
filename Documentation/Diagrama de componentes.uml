@@ -1,0 +1,34 @@
+@startuml
+!theme spacelab-white
+package "Frontend" {
+    [Next.js App] as FrontendApp
+}
+
+package "API Gateway" {
+    [Nest.js HTTP Controller] as APIGateway
+}
+
+package "Backend (Nest.js)" {
+    [Auth Module] as AuthModule
+    [Users Module] as UsersModule
+    [Events Module] as EventsModule
+    [Search Module] as SearchModule
+    [Registrations Module] as RegModule
+}
+
+database "PostgreSQL + PostGIS" as Postgres
+
+database "MongoDB (Events)" as Mongo
+
+FrontendApp --> APIGateway : HTTP/JSON (JWT)
+APIGateway --> AuthModule : validar credenciales / emitir token
+APIGateway --> UsersModule : CRUD usuarios
+APIGateway --> EventsModule : CRUD eventos
+APIGateway --> SearchModule : Búsqueda geoespacila
+APIGateway --> RegModule : inscribir / desinscribir
+
+EventsModule --> Mongo : persistir metadatos de eventos
+EventsModule --> Postgres : guardar ubicación geoespacial
+SearchModule --> Postgres : consultar eventos cercanos (ST_DWithin)
+RegModule --> Postgres : guardar inscripciones (userId, eventId)
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+!theme mars
+
+entity "User" as User {
+  * id: int PK
+  --
+  email: varchar
+  passwordHash: varchar
+  role: varchar
+}
+
+entity "Event" as EventMongo {
+  * _id: UUID PK
+  title: varchar
+  description: text
+  date: timestamp
+  tags: array
+  images: array
+}
+
+entity "EventLocation" as EventLoc {
+  * id: int PK
+  --
+  eventId: UUID FK
+  coordinates: geometry(Point)
+}
+
+entity "Registration" as Reg {
+  * id: int PK
+  --
+  userId: int FK
+  eventId: UUID FK
+  createdAt: timestamp
+}
+
+User ||--o{ Reg : "realiza"
+EventMongo ||--o{ EventLoc : "tiene ubicación"
+EventMongo ||--o{ Reg : "tiene inscripciones"
+
+@enduml
